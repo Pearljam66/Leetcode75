@@ -31,7 +31,7 @@ struct FindHighestAltitudeTest {
 
     class Solution {
 
-        func findHighestAltitude(_ gain: [Int]) -> Int {
+        func largestAltitude(_ gain: [Int]) -> Int {
             var maxAltitude = 0
             var currentAltitude = 0
 
@@ -47,12 +47,12 @@ struct FindHighestAltitudeTest {
 
     @Test func example1() {
         let solution = Solution()
-        #expect(solution.findHighestAltitude([-5, 1, 5, 0, -7]) == 1)
+        #expect(solution.largestAltitude([-5, 1, 5, 0, -7]) == 1)
     }
 
     @Test func example2() {
         let solution = Solution()
-        #expect(solution.findHighestAltitude([-4, -3, -2, -1, 4, 3, 2]) == 0)
+        #expect(solution.largestAltitude([-4, -3, -2, -1, 4, 3, 2]) == 0)
     }
 
 }
