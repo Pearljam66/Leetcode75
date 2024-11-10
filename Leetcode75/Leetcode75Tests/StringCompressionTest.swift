@@ -40,63 +40,45 @@ import Testing
 struct StringCompressionTest {
 
     class Solution {
-        func compress(_ chars: inout String) -> Int {
-            if chars.isEmpty { return 0 }
-
-            var charsArray = Array(chars)
-            var writeIndex = 0
-            var readIndex = 0
-
-            while readIndex < charsArray.count {
-                let currentChar = charsArray[readIndex]
-                var count = 0
-
-                // Count consecutive characters
-                while readIndex < charsArray.count && charsArray[readIndex] == currentChar {
-                    readIndex += 1
-                    count += 1
+        func compress(_ chars: inout [Character]) -> Int {
+            var index = 0
+            var i = 0
+            while i < chars.count {
+                let char = chars[i]
+                var j = i
+                while j < chars.count, chars[j] == char {
+                    j += 1
                 }
-
-                // Write the character
-                charsArray[writeIndex] = currentChar
-                writeIndex += 1
-
-                // If count is greater than 1, write the count
-                if count > 1 {
-                    for digit in String(count) {
-                        charsArray[writeIndex] = Character(extendedGraphemeClusterLiteral: digit)
-                        writeIndex += 1
+                chars[index] = char
+                index += 1
+                if j - i > 1 {
+                    for digit in String(j - i) {
+                        chars[index] = Character(extendedGraphemeClusterLiteral: digit)
+                        index += 1
                     }
                 }
+                i = j
             }
-
-            // Convert back to String and update chars
-            chars = String(charsArray[0..<writeIndex])
-
-            // Return the length of the compressed string
-            return writeIndex
+            return index
         }
     }
 
     @Test func example1() {
-        let input: [Character] = ["a", "a", "b", "b", "c", "c", "c"]
-        var stringFromInput = String(input)
+        var input: [Character] = ["a", "a", "b", "b", "c", "c", "c"]
         let expected: Int = 6
-        #expect(Solution().compress(&stringFromInput) == expected)
+        #expect(Solution().compress(&input) == expected)
     }
 
     @Test func example2() {
-        let input: [Character] = ["a"]
-        var stringFromInput = String(input)
+        var input: [Character] = ["a"]
         let expected: Int = 1
-        #expect(Solution().compress(&stringFromInput) == expected)
+        #expect(Solution().compress(&input) == expected)
     }
 
     @Test func example3() {
-        let input: [Character] = ["a","b","b","b","b","b","b","b","b","b","b","b","b"]
-        var stringFromInput = String(input)
+        var input: [Character] = ["a","b","b","b","b","b","b","b","b","b","b","b","b"]
         let expected: Int = 4
-        #expect(Solution().compress(&stringFromInput) == expected)
+        #expect(Solution().compress(&input) == expected)
     }
 
 }
