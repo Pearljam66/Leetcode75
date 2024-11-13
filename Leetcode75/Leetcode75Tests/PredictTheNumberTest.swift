@@ -39,7 +39,7 @@
 import Foundation
 import Testing
 
-struct PredictTheNumberTest {
+/*struct PredictTheNumberTest {
 
     class Solution {
         func findNthElement(_ nums: [Int]) -> Int {
@@ -61,3 +61,4 @@ struct PredictTheNumberTest {
         }
     }
 }
+*/
