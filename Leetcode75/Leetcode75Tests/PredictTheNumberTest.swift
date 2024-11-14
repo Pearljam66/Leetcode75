@@ -6,6 +6,20 @@
 //
 
 /*
+Practice Question:
+ Square a Number.
+ Write a program that squares an integer and prints the result.
+ For each line of input, print to standard output the square of the number. Print out each result on a new line.
+ Your program should read lines from standard input. Each line will contain a positive integer.
+
+ Test case 1:
+ 25
+
+ Test case 2:
+ 625
+ */
+
+/*
  Predict the Number
  Description:
  The example sequence 011212201220200112 … is constructed as follows:
@@ -39,7 +53,7 @@
 import Foundation
 import Testing
 
-/*struct PredictTheNumberTest {
+struct PredictTheNumberTest {
 
     class Solution {
         func findNthElement(_ nums: [Int]) -> Int {
@@ -61,4 +75,3 @@ import Testing
         }
     }
 }
-*/
