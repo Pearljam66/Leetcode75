@@ -5,9 +5,6 @@
 //  Created by Sarah Clark on 11/15/24.
 //
 
-import Foundation
-
-print("Hello, World!")
 
 import Foundation
 
@@ -128,3 +125,7 @@ class Solution {
     }
 
 }
+
+print("Hello, World!")
+print("Type in an input")
+Solution().processInput()
