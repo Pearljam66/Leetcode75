@@ -80,51 +80,43 @@ func predictNumber(at position: Int) -> Int {
     // Base case: The first number in the sequence is 0.
     if position == 0 { return 0 }
 
-    // Convert the position to ternary (base 3) representation.
-    // This is key because our sequence's pattern relates to ternary numbers
-    let ternary = convertToTernary(position)
+    // Determine the number at the given position by tracing back the transformations
+    var currentPosition = position
+    var currentNumber = 0
 
-    // The last digit in the ternary representation determines the number in the sequence
-    // Use the modulus operator to make sure we stay within the range 0, 1, 2
-    return mapTernaryDigitToInt(ternary.last ?? "0") % 3
-}
+    while currentPosition > 0 {
+        // Find the largest power of 2 less than or equal to currentPosition
+        var powerOfTwo = 1
+        while powerOfTwo <= currentPosition {
+            powerOfTwo *= 2
+        }
+        powerOfTwo /= 2
 
-// Converts the given number to its ternary representation.
-func convertToTernary(_ number: Int) -> [Character] {
-    var ternary: [Character] = []
-    // The number to convert
-    var n = number
+        // Determine the position within the current block
+        let positionInBlock = currentPosition - powerOfTwo
 
-    // Loop until number becomes zero, building the ternary representation.
-    while n > 0 {
-        // Find the remainder when divided by 3, this is our ternary digit
-        let remainder = n % 3
-        // Insert this digit at the start of our array to get the correct order
-        ternary.insert(Character(String(remainder)), at: 0)
-        // Integer division by 3 to move to the next ternary digit
-        n /= 3
+        // Update the current number based on the transformation rules
+        currentNumber = (currentNumber + 1) % 3
+
+        // Move to the next position to check
+        currentPosition = positionInBlock
     }
 
-    // Returns an array of Characters representing the ternary digits.
-    return ternary
-}
-
-// Maps a ternary digit to the corresponding sequence number.
-func mapTernaryDigitToInt(_ char: Character) -> Int {
-    switch char {
-        case "0": return 1 // Ternary 0 maps to 1
-        case "1": return 2 // Ternary 1 maps to 2
-        case "2": return 0 // Ternary 2 maps to 0
-        default: return 0 // Should not happen with valid ternary conversion
-    }
+    return currentNumber
 }
 
 // Function to handle input and output, reads from the standard input.
 func processNthElementInput() {
-    // Attempt to read a line and convert it to an integer
-    if let line = readLine(), let n = Int(line) {
-        // If successful, print the result of predictNumber for position n
-        print("The number at position \(n) is: \(predictNumber(at: n))")
+    // Start an infinite loop to keep reading input
+    while true {
+        // Attempt to read a line and convert it to an integer
+        if let line = readLine(), let n = Int(line), n >= 0 {
+            // If successful and non-negative, print the result of predictNumber for position n
+            print("The number at position \(n) is: \(predictNumber(at: n))")
+        } else {
+            // If input isn't valid or negative, inform the user
+            print("Please enter a valid number.")
+        }
     }
 }
 
@@ -133,5 +125,5 @@ func processNthElementInput() {
 //processInput()
 
 // Call the code.
-print("Please enter a number:")
+print("Please enter a position number:")
 processNthElementInput()
