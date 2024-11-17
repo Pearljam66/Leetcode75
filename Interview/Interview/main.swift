@@ -46,6 +46,11 @@ class Solution {
         }
     }
 
+    // Practice problem
+    /*print("Hello, World!")
+     print("Type in an input")
+     Solution().processInput()*/
+
     /*
      Predict the Number
      Description:
@@ -77,55 +82,55 @@ class Solution {
      Expected Output: 2
      */
 
-    // Function to get the digit at position n
-    func findNthElement(_ n: Int) -> Int {
-        // Base case
-        if n == 0 { return 0 }
+    // Create an algorithm which determines what number is at the Nth position in the sequence (using 0-based indexing).
+    // Input: Your program should read lines from standard input.
+    // Output: Print out the number which is at the Nth position in the sequence.
 
-        // Find the power of 2 that gives us the block containing n
-        var power = 0
-        var blockSize = 1
+    func predictNumber(at position: Int) -> Int {
+        // If position is 0, return 0 as per the sequence start
+        if position == 0 { return 0 }
 
-        while blockSize <= n {
-            blockSize *= 2
-            power += 1
+        // Convert position to ternary without adding 1
+        let ternary = convertToTernary(position)
+
+        // Map the last digit to the sequence number
+        // Here, we ensure that we're passing a Character to mapTernaryDigitToInt
+        return mapTernaryDigitToInt(ternary.last ?? "0") % 3
+    }
+
+    /// Converts the given number to its ternary representation
+    func convertToTernary(_ number: Int) -> [Character] {
+        var ternary: [Character] = []
+        var n = number
+
+        while n > 0 {
+            let remainder = n % 3
+            ternary.insert(Character(String(remainder)), at: 0)
+            n /= 3
         }
 
-        // Count transformations needed to reach n
-        var result = 0
-        var position = n
+        return ternary
+    }
 
-        while position > 0 {
-            // Count how many complete transformations are needed
-            let quotient = position / 3
-            let remainder = position % 3
-
-            // Update result based on remainder
-            if remainder == 1 {
-                result += 1
-            } else if remainder == 2 {
-                result += 2
-            }
-
-            position = quotient
+    func mapTernaryDigitToInt(_ char: Character) -> Int {
+        switch char {
+            case "0": return 1 // 0 in ternary becomes 1 in our sequence
+            case "1": return 2 // 1 in ternary becomes 2 in our sequence
+            case "2": return 0 // 2 in ternary becomes 0 in our sequence
+            default: return 0
         }
-
-        // Return final digit after all transformations
-        return result % 3
     }
 
     // Function to handle input and output
     func processNthElementInput() {
-        while let line = readLine() {
-            if let n = Int(line) {
-                let solution = Solution()
-                print(solution.findNthElement(n))
-            }
+        if let line = readLine(), let n = Int(line) {
+            print("The number at position \(n) is: \(predictNumber(at: n))")
         }
     }
-
 }
 
-print("Hello, World!")
-print("Type in an input")
-Solution().processInput()
+// Create code for terminal.
+print("Please enter a number:")
+// 011212201220200112
+Solution().processNthElementInput()
+
