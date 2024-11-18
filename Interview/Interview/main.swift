@@ -77,32 +77,41 @@ import Foundation
 
 // This function finds the number at the given position in the sequence.
 func predictNumber(at position: Int) -> Int {
-    // Base case: The first number in the sequence is 0.
+    // Base case: If the position is 0, return 0 as it's the start of the sequence.
     if position == 0 { return 0 }
 
-    // Determine the number at the given position by tracing back the transformations
+    // Initialize variables:
+    // - `currentPosition` to track which position we're currently evaluating.
+    // - `numberForPosition` to hold the number at the current position, starting with 0.
     var currentPosition = position
-    var currentNumber = 0
+    var numberForPosition = 0
 
+    // Continue until we've traced back to the start of the sequence (position 0).
     while currentPosition > 0 {
-        // Find the largest power of 2 less than or equal to currentPosition
+        // Find the largest power of 2 that is less than or equal to `currentPosition`.
+        // This represents the size of the current iteration's block.
         var powerOfTwo = 1
+        // Loop to find the next power of 2
         while powerOfTwo <= currentPosition {
             powerOfTwo *= 2
         }
+        // Adjust back to the correct power of 2 since we went one step too far
         powerOfTwo /= 2
 
-        // Determine the position within the current block
+        // Calculate the position within the current block.
+        // If `currentPosition` was in the second half of the block, this will be positive.
         let positionInBlock = currentPosition - powerOfTwo
 
-        // Update the current number based on the transformation rules
-        currentNumber = (currentNumber + 1) % 3
+        // Apply the transformation rule: 0 -> 1 -> 2 -> 0.
+        // Since we're tracing back, we increment and wrap around with modulo 3.
+        numberForPosition = (numberForPosition + 1) % 3
 
-        // Move to the next position to check
+        // Move to the next position to evaluate, which is the start of the block we just evaluated.
         currentPosition = positionInBlock
     }
 
-    return currentNumber
+    // Return the calculated number at the original position.
+    return numberForPosition
 }
 
 // Function to handle input and output, reads from the standard input.
@@ -127,3 +136,20 @@ func processNthElementInput() {
 // Call the code.
 print("Please enter a position number:")
 processNthElementInput()
+
+/*
+Time Complexity:
+O(log n): Where n is the position we're evaluating. Here's why:
+The outer while loop runs until currentPosition becomes 0, which takes log2(n) steps because each iteration halves the effective range of positions we're looking at.
+Inside this loop, we're finding the largest power of 2, which is essentially a binary search, also taking log2(n) time.
+
+Space Complexity:
+    O(1): The space complexity is constant because:
+    We only use a fixed amount of additional memory to store currentPosition, numberForPosition, and powerOfTwo, regardless of the input size. No data structures grow with the input size.
+
+Explanation of Complexity:
+    Time Complexity:
+    The function reduces the problem size by half in each iteration of the outer loop (by finding the next largest power of 2), which is characteristic of log-time algorithms. The inner loop that finds the power of 2 also operates in logarithmic time, but since it's part of each iteration of the outer loop, it doesn't increase the overall time complexity beyond log(n).
+
+    Space Complexity:
+    The function uses a constant amount of extra space for variables, regardless of how large position is. Therefore, it has a linear space complexity with respect to the problem size, but in terms of growth, it's constant.*/
