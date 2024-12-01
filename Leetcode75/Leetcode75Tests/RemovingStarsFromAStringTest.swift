@@ -38,7 +38,7 @@
 
 import Testing
 
-struct RemovingStarsFromAString {
+struct RemovingStarsFromAStringTest {
 
     class Solution {
         func removeStars(_ s: String) -> String {
