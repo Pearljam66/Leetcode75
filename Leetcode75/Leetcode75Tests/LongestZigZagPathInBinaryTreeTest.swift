@@ -57,36 +57,23 @@ struct LongestZigZagPathInBinaryTreeTest {
         private var maxLength = 0
 
         func longestZigZag(_ root: TreeNode?) -> Int {
-            guard let root = root else { return 0 }
-            maxLength = 0
-            dfs(root, true, 0)  // Start with right direction
-            dfs(root, false, 0) // Start with left direction
+            dfs(root, true, 0) // Start with left (true) and no steps (0)
+            dfs(root, false, 0) // Start with right (false) and no steps (0)
             return maxLength
         }
 
-        // direction: true for right, false for left
-        private func dfs(_ node: TreeNode?, _ goRight: Bool, _ steps: Int) {
-            guard let node = node else { return }
+        private func dfs(_ node: TreeNode?, _ goLeft: Bool, _ steps: Int) {
+            guard let node = node else {
+                maxLength = max(maxLength, steps - 1) // -1 because we count the parent node
+                return
+            }
 
-            // Update maximum length
-            maxLength = max(maxLength, steps)
-
-            if goRight {
-                // If going right, we can:
-                // 1. Continue zigzag by going left next
-                dfs(node.right, false, steps + 1)
-                // 2. Start new zigzag path going left
-                dfs(node.right, true, 0)
-                // 3. Start new zigzag path going right
-                dfs(node.left, false, 0)
+            if goLeft {
+                dfs(node.left, false, steps + 1)
+                dfs(node.right, true, 1)
             } else {
-                // If going left, we can:
-                // 1. Continue zigzag by going right next
-                dfs(node.left, true, steps + 1)
-                // 2. Start new zigzag path going left
-                dfs(node.left, false, 0)
-                // 3. Start new zigzag path going right
-                dfs(node.right, true, 0)
+                dfs(node.right, true, steps + 1)
+                dfs(node.left, false, 1)
             }
         }
     }
